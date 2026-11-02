@@ -1,0 +1,10 @@
+[Desktop Entry]
+Name=NoLags Browser
+Comment=Lightweight WebKit browser for low-memory machines
+X-OldComment=Fast, small, webkit based micro-browser extensible by Lua
+Exec=nolagsbrowser %u
+Icon=nolagsbrowser
+Terminal=false
+Type=Application
+Categories=Network;WebBrowser;
+MimeType=text/html;text/xml;application/xhtml+xml;x-scheme-handler/http;x-scheme-handler/https;

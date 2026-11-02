@@ -15,3 +15,8 @@ windows/NoLagsBrowser/obj/
 .DS_Store
 third-party/epiphany-fork/build/
 third-party/epiphany-fork/.git/
+third-party/luakit-fork/*.o
+third-party/luakit-fork/luakit
+third-party/luakit-fork/luakit.so
+third-party/luakit-fork/buildopts.h
+third-party/luakit-fork/doc/apidocs/

@@ -26,104 +26,49 @@
 
 ---
 
-## Что это
-
-NoLags Browser — **форк GNOME Web (Epiphany)** для машин вроде Pentium G620 / 4 ГБ ОЗУ. Это не обёртка над движком,
-а полноценный C-браузер: исходники Epiphany 43.1 пересобраны с брендингом NoLags, отключённым композитингом
-и периодическим `malloc_trim`. Движок — WebKitGTK (тот же, что в Safari), интерфейс — GTK 3.
-Windows-версия — отдельный порт на WinForms + WebView2 (Chromium).
-
-| | |
-|---|---|
-| **Linux (.deb)** | форк GNOME Web 43.1, WebKitGTK 4.1, GTK 3, ставится как `nolagsbrowser` |
-| **Windows (.exe)** | WebView2 (Chromium), тот же набор функций |
-| **Память** | `malloc_trim` раз в 2 минуты, композитинг и DMA-BUF отключены, сон вкладок |
-| **Приватность** | блок-лист hosts (77 758 домена), ITP, запрет сторонних cookie |
-
-| | |
-|---|---|
-| **Debian 13** | `.deb`-пакет, движок WebKitGTK 2.4x, GTK 3 |
-| **Windows** | `.exe` на WebView2 (Chromium), тот же набор функций |
-| **Память** | сон неактивных вкладок, ручная очистка, режим низкого потребления |
-| **Приватность** | блокировка трекеров, ITP, запрет сторонних cookie, hosts-генератор |
-
-<p align="center">
-  <img src="assets/mascot/mascot.png" width="220" alt="Маскот NoLags">
-</p>
-
 ## Как это выглядит
 
 <p align="center">
-  <img src="docs/screenshots/fork-example.png" width="49%" alt="Форк: example.com">
-  <img src="docs/screenshots/fork-wikipedia.png" width="49%" alt="Форк: Wikipedia">
-</p>
-<p align="center">
-  <img src="docs/screenshots/newtab.png" width="49%" alt="Стартовая страница">
-  <img src="docs/screenshots/menu.png" width="49%" alt="Меню браузера">
+  <img src="docs/screenshots/fork-wikipedia.png" width="49%" alt="NoLags Browser: Wikipedia">
+  <img src="docs/screenshots/fork-example.png" width="49%" alt="NoLags Browser: вкладки">
 </p>
 
-## Возможности
+## Что это
 
-**Вкладки и навигация**
+NoLags Browser — **форк luakit**: настоящий C-браузер на WebKitGTK, который конфигурируется через Lua.
+Исходники лежат в `third-party/luakit-fork`, поверх апстрима сделан свой интерфейс: панель с маскотом,
+вкладки, адресная строка сверху, светлая тема в бирюзовых тонах.
 
-- вкладки сверху, снизу или в боковой панели, перетаскивание, закрепление
-- сон вкладок: неактивная вкладка выгружается и освобождает память, при возврате загружается заново
-- восстановление закрытых вкладок и всего сеанса после перезапуска
-- поиск по открытым вкладкам, список вкладок, переключение `Alt+1…9`
-- адресная строка с подсказками из истории, закладок и поисковиков
-- приватное окно с отдельным контекстом без истории
-
-**Память**
-
-- ручная кнопка «Освободить память» (`malloc_trim` + очистка кэша WebKit)
-- автосон вкладок по таймеру (по умолчанию 10 минут)
-- режим низкого потребления: кэш документа вместо кэша браузера, отключение предзагрузки и DNS-prefetch
-- диспетчер вкладок с потреблением памяти и кнопкой «Усыпить»
-- выключение WebGL, изображений, плавной прокрутки и аппаратного рендеринга для самых слабых машин
-
-**Приватность и блокировка**
-
-- список трекеров из коробки (рекламные и аналитические домены)
-- загрузка полного hosts-списка StevenBlack одной кнопкой (77 000+ доменов)
-- генератор `hosts`-файла для системной блокировки
-- ITP (Intelligent Tracking Prevention) и запрет сторонних cookie
-- очистка истории, cookie, кэша, заметок и списка загрузок
-
-**Страницы и данные**
-
-- стартовая страница с маскотом, частыми сайтами и живым индикатором памяти
-- история по дням с поиском и экспортом в JSON
-- закладки с папками, импорт и экспорт HTML (совместимо с Firefox/Chrome) и JSON
-- менеджер загрузок, заметки к страницам, горячие клавиши отдельной страницей
-- режим чтения, тёмная/сепия/чёрно-белая тема страниц
-- поиск по странице, масштаб, полный экран, печать, сохранение страницы в MHTML, скриншот всей страницы
-- инструменты разработчика и просмотр исходного кода
-- смена User-Agent (Chrome, Firefox, мобильный), свой поисковик, своя тема
-
-**Сбор данных для теста**
-
-| Профиль | Браузер | Потребление ОЗУ |
-|---|---|---|
-| NoLags, 1 вкладка (стартовая) | WebKitGTK | ~180–220 МБ (все процессы) |
-| NoLags, 8 вкладок, 5 усыплено | WebKitGTK | ~250–300 МБ |
-
-Цифры — с `Pss` всех процессов WebKit на Debian 13; ваш профиль зависит от сайтов и шрифтов.
+| | |
+|---|---|
+| **Linux (.deb)** | форк luakit, WebKitGTK 4.1, GTK 3, интерфейс на Lua |
+| **Windows (.exe)** | WebView2 (Chromium), тот же набор функций |
+| **Память** | WebKitWebProcess запускается только при загрузке страницы, реклама блокируется |
+| **Приватность** | блок-лист рекламы, запрет сторонних cookie |
 
 ## Сборка форка
 
 ```bash
-sudo apt install build-essential meson ninja-build libwebkit2gtk-4.1-dev libgtk-3-dev \
-  libsoup-3.0-dev libjson-glib-dev libsecret-1-dev libgcr-3-dev libhandy-1-dev libdazzle-1.0-dev \
-  libportal-dev libportal-gtk3-dev iso-codes gsettings-desktop-schemas-dev libnettle-dev libarchive-dev
+sudo apt install build-essential libwebkit2gtk-4.1-dev libgtk-3-dev libluajit-5.1-dev \
+  lua5.1 lua-filesystem
 
-cd third-party/epiphany-fork
-meson setup build -Dunit_tests=disabled -Dprefix=/usr --buildtype=release
-ninja -C build -j2
-sudo ninja -C build install
+cd third-party/luakit-fork
+make -j2
+sudo make install
 ```
 
-Форк отличается от апстрима: имя «NoLags Browser», иконка-маскот, отключённый композитинг,
-`malloc_trim()` по таймеру и переменная `NOLAGS_DISABLE_SANDBOX` для машин без рабочего sandbox.
+Готовый пакет собирается скриптом:
+
+```bash
+bash scripts/build-fork-deb.sh   # -> dist/nolagsbrowser_2.0.0_amd64.deb
+```
+
+Что изменено относительно апстрима luakit:
+
+- `config/theme.lua` — своя светлая тема вместо чёрной;
+- `config/nolags_panel.lua` — верхняя панель: маскот, адресная строка, кнопка «домой»;
+- `widgets/window.c`, `lib/window.lua` — заголовок окна «NoLags Browser»;
+- `extras/luakit.desktop`, иконки и маскот с прозрачным фоном.
 
 ## Установка
 

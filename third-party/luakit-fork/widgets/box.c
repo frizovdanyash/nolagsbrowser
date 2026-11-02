@@ -1,0 +1,156 @@
+/*
+ * widgets/box.c - gtk hbox & vbox container widgets
+ *
+ * Copyright © 2010 Mason Larobina <mason.larobina@gmail.com>
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ *
+ */
+
+#include "luah.h"
+#include "widgets/common.h"
+
+static gint
+luaH_box_pack(lua_State *L)
+{
+    widget_t *w = luaH_checkwidget(L, 1);
+    widget_t *child = luaH_checkwidget(L, 2);
+
+    gint top = lua_gettop(L);
+    gboolean expand = FALSE, fill = FALSE, start = TRUE;
+    guint padding = 0;
+
+    /* check for options table */
+    if (top > 2 && !lua_isnil(L, 3)) {
+        luaH_checktable(L, 3);
+
+        /* pack child from start or end of container? */
+        if (luaH_rawfield(L, 3, "from"))
+            start = L_TK_END == l_tokenize(lua_tostring(L, -1)) ? FALSE : TRUE;
+
+        /* expand? */
+        if (luaH_rawfield(L, 3, "expand"))
+            expand = lua_toboolean(L, -1) ? TRUE : FALSE;
+
+        /* fill? */
+        if (luaH_rawfield(L, 3, "fill"))
+            fill = lua_toboolean(L, -1) ? TRUE : FALSE;
+
+        /* padding? */
+        if (luaH_rawfield(L, 3, "padding"))
+            padding = (guint)lua_tonumber(L, -1);
+
+        /* return stack to original state */
+        lua_settop(L, top);
+    }
+
+    if (start)
+        gtk_box_pack_start(GTK_BOX(w->widget), GTK_WIDGET(child->widget),
+                expand, fill, padding);
+    else
+        gtk_box_pack_end(GTK_BOX(w->widget), GTK_WIDGET(child->widget),
+                expand, fill, padding);
+    return 0;
+}
+
+/* direct wrapper around gtk_box_reorder_child */
+static gint
+luaH_box_reorder_child(lua_State *L)
+{
+    widget_t *w = luaH_checkwidget(L, 1);
+    widget_t *child = luaH_checkwidget(L, 2);
+    gint pos = luaL_checknumber(L, 3);
+    gtk_box_reorder_child(GTK_BOX(w->widget), GTK_WIDGET(child->widget), pos);
+    return 0;
+}
+
+static gint
+luaH_box_index(lua_State *L, widget_t *w, luakit_token_t token)
+{
+    switch(token) {
+      LUAKIT_WIDGET_INDEX_COMMON(w)
+      LUAKIT_WIDGET_CONTAINER_INDEX_COMMON(w)
+
+      /* push class methods */
+      PF_CASE(PACK,         luaH_box_pack)
+      PF_CASE(REORDER,      luaH_box_reorder_child)
+      /* push boolean properties */
+      PB_CASE(HOMOGENEOUS,  gtk_box_get_homogeneous(GTK_BOX(w->widget)))
+      /* push string properties */
+      PN_CASE(SPACING,      gtk_box_get_spacing(GTK_BOX(w->widget)))
+
+      PS_CASE(BG, g_object_get_data(G_OBJECT(w->widget), "bg"))
+
+      default:
+        break;
+    }
+    return 0;
+}
+
+static gint
+luaH_box_newindex(lua_State *L, widget_t *w, luakit_token_t token)
+{
+    size_t len;
+    const gchar *tmp;
+    GdkRGBA c;
+
+    switch(token) {
+      LUAKIT_WIDGET_NEWINDEX_COMMON(w)
+
+      case L_TK_HOMOGENEOUS:
+        gtk_box_set_homogeneous(GTK_BOX(w->widget), luaH_checkboolean(L, 3));
+        break;
+
+      case L_TK_SPACING:
+        gtk_box_set_spacing(GTK_BOX(w->widget), luaL_checknumber(L, 3));
+        break;
+
+      case L_TK_BG:
+        tmp = luaL_checklstring(L, 3, &len);
+        if (!gdk_rgba_parse(&c, tmp))
+            luaL_argerror(L, 3, "unable to parse colour");
+#if GTK_CHECK_VERSION(3,16,0)
+        widget_set_css_properties(w, "background-color", tmp, NULL);
+#else
+        gtk_widget_override_background_color(GTK_WIDGET(w->widget), GTK_STATE_FLAG_NORMAL, &c);
+#endif
+        g_object_set_data_full(G_OBJECT(w->widget), "bg", g_strdup(tmp), g_free);
+        break;
+
+      default:
+        return 0;
+    }
+
+    return luaH_object_property_signal(L, 1, token);
+}
+
+widget_t *
+widget_box(lua_State *UNUSED(L), widget_t *w, luakit_token_t token)
+{
+    w->index = luaH_box_index;
+    w->newindex = luaH_box_newindex;
+
+    w->widget = gtk_box_new((token == L_TK_VBOX) ?
+            GTK_ORIENTATION_VERTICAL : GTK_ORIENTATION_HORIZONTAL, 0);
+    gtk_box_set_homogeneous(GTK_BOX(w->widget), (token == L_TK_VBOX) ? FALSE : TRUE);
+
+    g_object_connect(G_OBJECT(w->widget),
+      LUAKIT_WIDGET_SIGNAL_COMMON(w)
+      "signal::add",        G_CALLBACK(add_cb),        w,
+      NULL);
+    gtk_widget_show(w->widget);
+    return w;
+}
+
+// vim: ft=c:et:sw=4:ts=8:sts=4:tw=80
