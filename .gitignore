@@ -1,0 +1,15 @@
+__pycache__/
+*.py[cod]
+build/
+dist/
+*.deb
+bin/
+obj/
+windows/NoLagsBrowser/bin/
+windows/NoLagsBrowser/obj/
+.vs/
+*.user
+*.pdb
+*.dll
+*.cache
+.DS_Store

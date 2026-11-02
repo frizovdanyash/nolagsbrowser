@@ -1,0 +1,20 @@
+Source: nolagsbrowser
+Section: web
+Priority: optional
+Maintainer: Danechka <frizovdanyash@users.noreply.github.com>
+Build-Depends: debhelper-compat (= 13)
+Standards-Version: 4.7.0
+Homepage: https://github.com/frizovdanyash/nolagsbrowser
+Rules-Requires-Root: no
+
+Package: nolagsbrowser
+Architecture: all
+Depends: python3 (>= 3.9), python3-gi, python3-gi-cairo, gir1.2-gtk-3.0, gir1.2-webkit2-4.1, ${misc:Depends}
+Recommends: sqlite3, fonts-noto-core, fonts-dejavu-core
+Suggests: apparmor, xdg-utils
+Description: lightweight web browser built on WebKitGTK
+ NoLags Browser is a compact GTK3 browser focused on memory usage:
+ background tabs can be suspended to release RAM, memory can be trimmed
+ manually, and the interface stays out of the way. It ships with history,
+ bookmarks, downloads, notes, a start page with a mascot, tracker blocking,
+ reader mode and a hosts-list generator.

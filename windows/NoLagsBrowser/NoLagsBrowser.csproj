@@ -1,0 +1,35 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <OutputType>WinExe</OutputType>
+    <TargetFramework>net9.0-windows</TargetFramework>
+    <UseWindowsForms>true</UseWindowsForms>
+    <Nullable>disable</Nullable>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <EnableWindowsTargeting>true</EnableWindowsTargeting>
+    <AssemblyName>NoLagsBrowser</AssemblyName>
+    <RootNamespace>NoLagsBrowser</RootNamespace>
+    <ApplicationIcon>Resources\nolagsbrowser.ico</ApplicationIcon>
+    <ApplicationManifest>app.manifest</ApplicationManifest>
+    <Version>1.0.0</Version>
+    <FileVersion>1.0.0.0</FileVersion>
+    <Company>Danechka</Company>
+    <Product>NoLags Browser</Product>
+    <AssemblyTitle>NoLags Browser</AssemblyTitle>
+    <Description>Lightweight web browser built on WebView2</Description>
+    <Copyright>MIT License, Danechka</Copyright>
+    <SatelliteResourceLanguages>ru;en</SatelliteResourceLanguages>
+    <InvariantGlobalization>false</InvariantGlobalization>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.Web.WebView2" Version="1.0.2903.40" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <EmbeddedResource Include="Resources\mascot.png" />
+    <EmbeddedResource Include="Resources\mascot_sleep.png" />
+    <EmbeddedResource Include="Resources\icon.png" />
+  </ItemGroup>
+
+</Project>

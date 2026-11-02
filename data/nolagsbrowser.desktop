@@ -1,0 +1,29 @@
+[Desktop Entry]
+Version=1.0
+Type=Application
+Name=NoLags Browser
+Name[ru]=NoLags Browser
+GenericName=Web Browser
+GenericName[ru]=Веб-браузер
+Comment=Browse the web with low memory usage
+Comment[ru]=Браузер с низким потреблением памяти
+Exec=nolagsbrowser %U
+Icon=nolagsbrowser
+Terminal=false
+Categories=Network;WebBrowser;
+MimeType=x-scheme-handler/http;x-scheme-handler/https;text/html;application/xhtml+xml;
+Keywords=web;browser;internet;light;fast;
+Keywords[ru]=браузер;интернет;лёгкий;быстрый;
+StartupNotify=true
+StartupWMClass=NoLags Browser
+Actions=new-window;new-private-window;
+
+[Desktop Action new-window]
+Name=New Window
+Name[ru]=Новое окно
+Exec=nolagsbrowser --new-window
+
+[Desktop Action new-private-window]
+Name=New Private Window
+Name[ru]=Новое приватное окно
+Exec=nolagsbrowser --private

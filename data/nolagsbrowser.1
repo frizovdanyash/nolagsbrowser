@@ -1,0 +1,43 @@
+.TH NOLAGSBROWSER 1 "2026-11-03" "NoLags Browser 1.0.0" "Пользовательские команды"
+.SH NAME
+nolagsbrowser \- лёгкий веб\-браузер на GTK3 и WebKitGTK
+.SH SYNOPSIS
+.B nolagsbrowser
+[\fIОПЦИИ\fR] [\fIURL\fR ...]
+.SH DESCRIPTION
+.B NoLags Browser
+\- браузер с акцентом на низкое потребление оперативной памяти: сон неактивных вкладок,
+ручная очистка памяти, компактный интерфейс на GTK3 и движок WebKitGTK.
+.SH OPTIONS
+.TP
+.B \-\-private, \-p
+Открыть приватное окно без сохранения истории.
+.TP
+.B \-\-new\-window
+Открыть новое окно.
+.TP
+.B \-\-version
+Показать версию и выйти.
+.TP
+.B \-\-help, \-h
+Показать справку.
+.SH FILES
+.TP
+.I ~/.config/nolagsbrowser/settings.json
+Настройки браузера.
+.TP
+.I ~/.local/share/nolagsbrowser/profile.db
+История, закладки, загрузки, заметки и сохранённый сеанс.
+.TP
+.I ~/.cache/nolagsbrowser
+Кэш страниц.
+.SH EXAMPLES
+.PP
+.nf
+nolagsbrowser https://github.com
+nolagsbrowser --private https://duckduckgo.com
+.fi
+.SH SEE ALSO
+.BR xdg-open (1)
+.SH AUTHOR
+Danechka <frizovdanyash@users.noreply.github.com>
