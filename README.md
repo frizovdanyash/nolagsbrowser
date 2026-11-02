@@ -54,12 +54,12 @@ Windows-версия — отдельный порт на WinForms + WebView2 (C
 ## Как это выглядит
 
 <p align="center">
-  <img src="docs/screenshots/newtab.png" width="49%" alt="Стартовая страница">
-  <img src="docs/screenshots/history.png" width="49%" alt="История">
+  <img src="docs/screenshots/fork-example.png" width="49%" alt="Форк: example.com">
+  <img src="docs/screenshots/fork-wikipedia.png" width="49%" alt="Форк: Wikipedia">
 </p>
 <p align="center">
+  <img src="docs/screenshots/newtab.png" width="49%" alt="Стартовая страница">
   <img src="docs/screenshots/menu.png" width="49%" alt="Меню браузера">
-  <img src="docs/screenshots/bookmarks.png" width="49%" alt="Закладки">
 </p>
 
 ## Возможности
