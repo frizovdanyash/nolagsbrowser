@@ -1,0 +1,73 @@
+diff -u -r epiphany-43.1-orig/src/ephy-main.c epiphany-fork/src/ephy-main.c
+--- epiphany-43.1-orig/src/ephy-main.c
++++ epiphany-fork/src/ephy-main.c
+@@ -99,7 +99,7 @@
+   }
+ 
+   if (version) {
+-    g_print ("%s %s\n", _("Web"), VERSION);
++    g_print ("%s %s\n", "NoLags Browser", VERSION);
+     return 0;
+   }
+@@ -253,7 +253,7 @@
+ 
+   g_option_context_add_main_entries (option_context, command_line_options, GETTEXT_PACKAGE);
+   g_option_context_add_group (option_context, gtk_get_option_group (TRUE));
+-  g_set_application_name (_("Web"));
++  g_set_application_name ("NoLags Browser");
+ 
+   if (!g_option_context_parse (option_context, &argc, &argv, &error)) {
+     g_printerr ("Failed to parse arguments: %s\n", error->message);
+@@ -406,7 +406,7 @@
+ 
+   webkit_sandbox_initialize ();
+ 
+-    g_set_application_name (_("Web"));
++    g_set_application_name ("NoLags Browser");
+ 
+   gtk_window_set_default_icon_name (APPLICATION_ID);
+ 
+diff -u -r epiphany-43.1-orig/data/org.gnome.Epiphany.desktop.in.in epiphany-fork/data/org.gnome.Epiphany.desktop.in.in
+--- epiphany-43.1-orig/data/org.gnome.Epiphany.desktop.in.in
++++ epiphany-fork/data/org.gnome.Epiphany.desktop.in.in
+@@ -1,7 +1,7 @@
+ [Desktop Entry]
+-Name=Web
++Name=NoLags Browser
+ GenericName=Web Browser
+-Comment=Browse the web
++Comment=Lightweight Chromium-free browser for low-end PCs
+ Keywords=web;browser;internet;
+ Exec=epiphany %U
+ StartupNotify=true
+@@ -11,7 +11,7 @@
+ Icon=@icon@
+-Categories=Network;GNOME;GTK;WebBrowser;
++Categories=Network;GTK;WebBrowser;
+ MimeType=text/html;application/xhtml+xml;x-scheme-handler/http;x-scheme-handler/https;multipart/related;application/x-mimearchive;message/rfc822;application/x-xpinstall;
+ Actions=new-window;Incognito;
+diff -u -r epiphany-43.1-orig/data/org.gnome.Epiphany.appdata.xml.in.in epiphany-fork/data/org.gnome.Epiphany.appdata.xml.in.in
+--- epiphany-43.1-orig/data/org.gnome.Epiphany.appdata.xml.in.in
++++ epiphany-fork/data/org.gnome.Epiphany.appdata.xml.in.in
+@@ -3,8 +3,8 @@
+ <component type="desktop">
+   <id>@appid@.desktop</id>
+   <metadata_license>CC0-1.0</metadata_license>
+-  <name>Web</name>
+-  <summary>Web browser for GNOME</summary>
++  <name>NoLags Browser</name>
++  <summary>Lightweight browser fork for low-memory machines</summary>
+   <description>
+     <p>
+       The web browser for GNOME, featuring tight integration with the desktop
+diff -u -r epiphany-43.1-orig/src/resources/about.ini epiphany-fork/src/resources/about.ini
+--- epiphany-43.1-orig/src/resources/about.ini
++++ epiphany-fork/src/resources/about.ini
+@@ -1,5 +1,5 @@
+-[About]
++[About]
++ProgramName=NoLags Browser
++Copyright=MIT License, Danechka. Based on GNOME Web (Epiphany), GPL-3.0.
+ Author=Marco Pesenti Gritti (in memoriam);
+ Maintainers=Jan-Michael Brummer;Carlos García Campos;Michael Catanzaro;Alexander Mikhaylenko;
+ PastMaintainers=Xan López;Christian Persch;Claudio Saavedra;

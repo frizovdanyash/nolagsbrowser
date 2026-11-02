@@ -99,7 +99,7 @@ def main():
     work = Path("/tmp/nolags-assets")
     work.mkdir(parents=True, exist_ok=True)
 
-    run(["convert", str(SOURCE), "-resize", "1024x1024", "-bordercolor", "#f4f1ea", "-border", "1", "-fuzz", "7%", "-trim", "+repage", str(work / "trimmed.png")])
+    run(["convert", str(SOURCE), "-resize", "1024x1024", "-trim", "+repage", str(work / "trimmed.png")])
     trimmed = work / "trimmed.png"
     run(["convert", str(trimmed), "-resize", "900x900", str(MASCOT / "mascot.png")])
 

@@ -28,9 +28,17 @@
 
 ## Что это
 
-NoLags Browser — компактный браузер, который не пытается заменить Chrome, а честно экономит память на машинах вроде
-Pentium G620 / 4 ГБ ОЗУ. Движок — WebKitGTK (Debian 13), интерфейс — GTK 3, всё остальное написано на Python.
-Данные (история, закладки, загрузки, заметки, сеанс) лежат в обычном SQLite-файле.
+NoLags Browser — **форк GNOME Web (Epiphany)** для машин вроде Pentium G620 / 4 ГБ ОЗУ. Это не обёртка над движком,
+а полноценный C-браузер: исходники Epiphany 43.1 пересобраны с брендингом NoLags, отключённым композитингом
+и периодическим `malloc_trim`. Движок — WebKitGTK (тот же, что в Safari), интерфейс — GTK 3.
+Windows-версия — отдельный порт на WinForms + WebView2 (Chromium).
+
+| | |
+|---|---|
+| **Linux (.deb)** | форк GNOME Web 43.1, WebKitGTK 4.1, GTK 3, ставится как `nolagsbrowser` |
+| **Windows (.exe)** | WebView2 (Chromium), тот же набор функций |
+| **Память** | `malloc_trim` раз в 2 минуты, композитинг и DMA-BUF отключены, сон вкладок |
+| **Приватность** | блок-лист hosts (77 758 домена), ITP, запрет сторонних cookie |
 
 | | |
 |---|---|
@@ -100,6 +108,22 @@ Pentium G620 / 4 ГБ ОЗУ. Движок — WebKitGTK (Debian 13), интер
 | NoLags, 8 вкладок, 5 усыплено | WebKitGTK | ~250–300 МБ |
 
 Цифры — с `Pss` всех процессов WebKit на Debian 13; ваш профиль зависит от сайтов и шрифтов.
+
+## Сборка форка
+
+```bash
+sudo apt install build-essential meson ninja-build libwebkit2gtk-4.1-dev libgtk-3-dev \
+  libsoup-3.0-dev libjson-glib-dev libsecret-1-dev libgcr-3-dev libhandy-1-dev libdazzle-1.0-dev \
+  libportal-dev libportal-gtk3-dev iso-codes gsettings-desktop-schemas-dev libnettle-dev libarchive-dev
+
+cd third-party/epiphany-fork
+meson setup build -Dunit_tests=disabled -Dprefix=/usr --buildtype=release
+ninja -C build -j2
+sudo ninja -C build install
+```
+
+Форк отличается от апстрима: имя «NoLags Browser», иконка-маскот, отключённый композитинг,
+`malloc_trim()` по таймеру и переменная `NOLAGS_DISABLE_SANDBOX` для машин без рабочего sandbox.
 
 ## Установка
 

@@ -270,13 +270,13 @@ document.getElementById("sf").addEventListener("submit", function (event) {
   event.preventDefault();
   var value = document.getElementById("q").value.trim();
   if (!value) return;
-  if (event.submitter && event.shiftKey) nl("navigate_raw", { text: value, force: true });
-  else nl("navigate", { text: value });
+  if (event.submitter && event.shiftKey) nl("navigate_raw", { raw: value });
+  else nl("navigate", { url: value });
 });
 document.getElementById("q").addEventListener("keydown", function (event) {
   if (event.key === "Enter" && event.shiftKey) {
     event.preventDefault();
-    nl("navigate_raw", { text: this.value.trim(), force: true });
+    nl("navigate_raw", { raw: this.value.trim() });
   }
 });
 window.nlSetMem = function (data) {

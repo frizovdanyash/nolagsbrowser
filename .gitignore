@@ -13,3 +13,5 @@ windows/NoLagsBrowser/obj/
 *.dll
 *.cache
 .DS_Store
+third-party/epiphany-fork/build/
+third-party/epiphany-fork/.git/

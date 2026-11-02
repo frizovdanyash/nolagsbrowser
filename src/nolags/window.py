@@ -1688,17 +1688,17 @@ class MainWindow(Gtk.ApplicationWindow):
     def handle_page_message(self, tab, data):
         action = data.get("action")
         if action == "navigate":
-            url = data.get("url") or ""
-            if url:
-                tab.navigate(url)
+            target = data.get("url") or data.get("text") or ""
+            if target:
+                self.open_from_page(tab, target)
         elif action == "navigate_raw":
-            text = data.get("text") or ""
+            text = data.get("raw") or data.get("text") or ""
             if text:
-                tab.navigate(text, force_search=False)
+                self.open_from_page(tab, text)
         elif action == "search":
-            text = data.get("text") or ""
+            text = data.get("text") or data.get("query") or ""
             if text:
-                tab.load(search.search_url(self.settings, text))
+                self.open_from_page(tab, text, force_search=True)
         elif action == "open":
             url = data.get("url") or ""
             if url:
@@ -1798,6 +1798,21 @@ class MainWindow(Gtk.ApplicationWindow):
         elif action == "save_site_style":
             style = data.get("style") or "none"
             self.set_site_style(style)
+
+    def open_from_page(self, tab, text, force_search=False):
+        target = (text or "").strip()
+        if not target:
+            return
+        if target.startswith(("nolags://", "about:", "view-source:", "file:")):
+            tab.load(target)
+            return
+        if force_search:
+            tab.load(search.search_url(self.settings, target))
+            return
+        if search.is_internal(tab.url):
+            tab.navigate(target)
+        else:
+            self.create_tab(search.normalize_input(target, self.settings))
 
     def send_memory_stats(self, tab):
         if tab is None or tab.view is None:

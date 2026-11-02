@@ -488,7 +488,10 @@ class AddressBar(Gtk.Box):
         tab = self._current_tab()
         if tab is None:
             return
-        tab.navigate(text, from_omnibox=True)
+        if search.is_internal(tab.url):
+            tab.navigate(text, from_omnibox=True)
+        else:
+            self.window.open_from_page(tab, text)
         if self.window.settings.get("new_tab_focus_address"):
             tab.view.grab_focus()
 
@@ -496,11 +499,11 @@ class AddressBar(Gtk.Box):
         tab = self._current_tab()
         if tab is None:
             return
-        if isinstance(payload, tuple) and payload[0] == "search":
-            tab.navigate(payload[1], from_omnibox=True, force_search=True)
-        else:
-            tab.navigate(payload, from_omnibox=True)
         self.popover.hide()
+        if isinstance(payload, tuple) and payload[0] == "search":
+            self.window.open_from_page(tab, payload[1], force_search=True)
+        else:
+            self.window.open_from_page(tab, payload)
 
     def _on_focus_in(self, _entry, _event):
         self._capture = True
@@ -554,7 +557,7 @@ class AddressBar(Gtk.Box):
             self.popover.hide()
             tab = self._current_tab()
             if tab and text:
-                tab.navigate(text, from_omnibox=True)
+                self.window.open_from_page(tab, text, force_search=True)
             return True
         return False
 
