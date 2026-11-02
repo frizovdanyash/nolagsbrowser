@@ -130,7 +130,7 @@ sudo ninja -C build install
 ### Debian 13 / Ubuntu 24.04+
 
 ```bash
-sudo apt install ./nolagsbrowser_1.0.0_all.deb
+sudo apt install ./nolagsbrowser_2.0.0_amd64.deb
 nolagsbrowser
 ```
 
@@ -198,7 +198,7 @@ PYTHONPATH=src python3 -m nolags
 
 ```bash
 bash scripts/build-deb.sh
-# результат: dist/nolagsbrowser_1.0.0_all.deb
+# результат: dist/nolagsbrowser_2.0.0_amd64.deb
 ```
 
 ### Windows `.exe`
