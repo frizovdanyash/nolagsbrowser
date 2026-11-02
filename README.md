@@ -43,6 +43,17 @@ Pentium G620 / 4 ГБ ОЗУ. Движок — WebKitGTK (Debian 13), интер
   <img src="assets/mascot/mascot.png" width="220" alt="Маскот NoLags">
 </p>
 
+## Как это выглядит
+
+<p align="center">
+  <img src="docs/screenshots/newtab.png" width="49%" alt="Стартовая страница">
+  <img src="docs/screenshots/history.png" width="49%" alt="История">
+</p>
+<p align="center">
+  <img src="docs/screenshots/menu.png" width="49%" alt="Меню браузера">
+  <img src="docs/screenshots/bookmarks.png" width="49%" alt="Закладки">
+</p>
+
 ## Возможности
 
 **Вкладки и навигация**
